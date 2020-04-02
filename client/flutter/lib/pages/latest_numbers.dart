@@ -1,5 +1,5 @@
 import 'package:WHOFlutter/api/who_service.dart';
-import 'package:WHOFlutter/components/arrow_button.dart';
+import 'package:WHOFlutter/components/page_button.dart';
 import 'package:WHOFlutter/components/page_scaffold/page_scaffold.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,16 +9,15 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const number = TextStyle(
-  color: Color(0xFFD82037),
+  color: Color(0xFFAF2B2B),
   fontSize: 36,
-  fontWeight: FontWeight.bold
 );
 const loadingStyle = TextStyle(
   color: Color(0xff26354E),
   fontSize: 36,
 );
 const name = TextStyle(
-  color: Color(0xff26354E),
+  color: Colors.black,
   fontSize: 16,
   fontWeight: FontWeight.w700,
 );
@@ -64,9 +63,7 @@ class LatestNumbers extends StatelessWidget {
                             ? numFmt.format(globalStats['cases'])
                             : '-',
                         softWrap: true,
-                        style: hasGlobalStats && globalStats['cases'] != null
-                            ? number
-                            : loadingStyle,
+                        style: hasGlobalStats && globalStats['cases'] != null ? number : loadingStyle,
                         textAlign: TextAlign.left,
                       )),
                   StatCard(
@@ -76,9 +73,7 @@ class LatestNumbers extends StatelessWidget {
                           ? numFmt.format(globalStats['deaths'])
                           : '-',
                       softWrap: true,
-                      style: hasGlobalStats && globalStats['deaths'] != null
-                          ? number
-                          : loadingStyle,
+                      style: hasGlobalStats && globalStats['deaths'] != null ? number : loadingStyle,
                       textAlign: TextAlign.left,
                     ),
                   ),
@@ -86,7 +81,9 @@ class LatestNumbers extends StatelessWidget {
                     height: 25,
                   ),
                   Text(
-                    snapshot.hasData ? S.of(context).latestNumbersPageLastUpdated(lastUpd) : S.of(context).latestNumbersPageUpdating,
+                    snapshot.hasData
+                        ? S.of(context).latestNumbersPageLastUpdated(lastUpd)
+                        : S.of(context).latestNumbersPageUpdating,
                     style: TextStyle(color: Color(0xff26354E)),
                     textAlign: TextAlign.center,
                   ),
@@ -106,10 +103,14 @@ class LatestNumbers extends StatelessWidget {
                       left: 24,
                       right: 24,
                     ),
-                    child: ArrowButton(
-                        title: S.of(context).latestNumbersPageViewLiveData,
-                        color: Color(0xff008DC9),
-                        onPressed: () => _launchStatsDashboard(context)),
+                    child: PageButton(
+                      Color(0xff1A458E),
+                      S.of(context).latestNumbersPageViewLiveData,
+                      () {
+                        return _launchStatsDashboard(context);
+                      },
+                      mainAxisAlignment: MainAxisAlignment.start,
+                    ),
                   )
                 ]));
               }),
@@ -132,7 +133,6 @@ class StatCard extends StatelessWidget {
         top: 24,
         left: 24,
         right: 24,
-        bottom: 6
       ),
       child: Card(
         elevation: 0,
